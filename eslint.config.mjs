@@ -4,9 +4,9 @@ import tseslint from "typescript-eslint";
 
 
 export default [
-  { files: ["**/*.{js,mjs,cjs,ts}"] },
-  { languageOptions: { globals: globals.browser } },
-  {
+  {files: ["**/*.{js,mjs,cjs,ts}"]},
+  {languageOptions: { globals: globals.browser }},
+  { 
     rules: {
 
       "@typescript-eslint/no-unused-vars": [
@@ -28,6 +28,7 @@ export default [
           allowEmptyCatch: true,
         },
       ],
+      "no-empty-pattern": "off",
     }
   },
   pluginJs.configs.recommended,
