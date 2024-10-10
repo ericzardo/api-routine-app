@@ -7,6 +7,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum DocumentType {
+  FILE
+  FOLDER
+}
+
 model User {
   id       String @id @default(uuid())
   username String @unique
@@ -32,10 +37,11 @@ model Profile {
 }
 
 model Document {
-  id       String     @id @default(uuid())
+  id       String       @id @default(uuid())
   name     String
-  type     String
-  modified DateTime   @default(now())
+  type     DocumentType
+  modified DateTime     @default(now())
+
   parentId String? // parent folder ID (null if root folder)
   parent   Document?  @relation("FolderContent", fields: [parentId], references: [id])
   content  Document[] @relation("FolderContent")

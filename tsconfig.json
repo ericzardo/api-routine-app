@@ -8,9 +8,19 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@lib/*": ["src/lib/*"]
+      "@lib/*": [
+        "src/lib/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ]
     },
   },
-  "exclude": ["node_modules"],
-  "typeRoots": ["./src/types", "./node_modules/@types"]
+  "exclude": [
+    "node_modules"
+  ],
+  "typeRoots": [
+    "./src/types",
+    "./node_modules/@types"
+  ]
 }

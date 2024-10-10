@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 import prisma from "@lib/prisma"
 import env from "@lib/env"
 import { ForbiddenError, NotFoundError, ClientErrpr } from "src/error-handler";
+import buildDocumentHierarchy from "@utils/buildDocumentHierarchy";
 
 interface JwtPayload {
   id: string,
@@ -21,13 +22,33 @@ async function auth (request: FastifyRequest) {
     const user = await prisma.user.findUnique({
       where: { id },
       include: {
-        profiles: true,
+        profiles: {
+          include: {
+            Alarms: true,
+            Documents: {
+              include: {
+                content: true,
+              }
+            },
+            Habits: true,
+          }
+        },
       },
     });
 
     if (!user) {
       throw new NotFoundError("User not found.");
     }
+
+    user.profiles.forEach((profile) => {
+      profile.Documents = buildDocumentHierarchy(
+        profile.Documents.map((doc) => ({
+          ...doc,
+          content: [],
+        }))
+      );
+    });
+    
 
     request.user = user;
   } catch (error) {

@@ -3,13 +3,9 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { ForbiddenError } from "src/error-handler";
 import auth from "src/middleware/auth";
 
-interface ProfileParams {
-  userId: string;
-}
-
 async function getProfiles (app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().get<{ Params: ProfileParams }>(
-    "//profiles",
+  app.withTypeProvider<ZodTypeProvider>().get(
+    "/profiles",
     {
       preHandler: [auth],
     },
