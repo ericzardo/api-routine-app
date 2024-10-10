@@ -2,8 +2,8 @@ import "fastify";
 
 interface Profile {
   id: string;
-  userId: string;
   name: string;
+  userId: string;
 }
 
 declare module "fastify" {
@@ -12,8 +12,7 @@ declare module "fastify" {
       id: string;
       username: string;
       email: string;
-      password: string;
-      profiles?: Profile[];
+      profiles: Profile[];
     };
   }
 }
