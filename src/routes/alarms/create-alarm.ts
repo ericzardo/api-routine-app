@@ -10,7 +10,7 @@ interface AlarmSchema {
   name: string;
   time: string;
   sound: string;
-  repeat: string[];
+  repeat: string;
   isActived?: boolean;
 }
 
@@ -35,7 +35,7 @@ async function createAlarm (app: FastifyInstance) {
                 const [hour, minute] = time.split(":").map(Number);
                 return hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59;
               }, "Invalid time"),
-            repeat: z.array(z.string().optional()).optional(),
+            repeat: z.string().optional().default(""),
             sound: z.string().optional(),
             isActived: z.boolean(),
           }),

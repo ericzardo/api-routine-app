@@ -46,6 +46,12 @@ async function deleteAlarm (app: FastifyInstance) {
         throw new NotFoundError("Alarm not found in the specified profile.")
       }
 
+      await prisma.alarm.delete({
+        where: {
+          id: alarm.id
+        }
+      })
+
       return reply.status(201).send({
         alarm,
         message: `Alarms deleted successfully`,
