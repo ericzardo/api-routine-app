@@ -26,9 +26,9 @@ model User {
 model Profile {
   id        String     @id @default(uuid())
   name      String
-  Alarms    Alarm[]
-  Habits    Habit[]
-  Documents Document[]
+  alarms    Alarm[]
+  habits    Habit[]
+  documents Document[]
 
   userId String
   user   User   @relation("UserProfiles", fields: [userId], references: [id])
@@ -56,7 +56,7 @@ model Alarm {
   id       String   @id @default(uuid())
   name     String
   time     DateTime
-  repeat   String?
+  repeat   String   @default("")
   sound    String
   isActive Boolean
 
@@ -69,7 +69,7 @@ model Alarm {
 model Habit {
   id        String @id @default(uuid())
   name      String
-  frequency Json
+  frequency String @default("")
 
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String
