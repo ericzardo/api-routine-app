@@ -21,17 +21,20 @@ async function auth (request: FastifyRequest) {
 
     const user = await prisma.user.findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        username: true,
+        email: true,
         profiles: {
           include: {
-            Alarms: true,
-            Documents: {
+            alarms: true,
+            documents: {
               include: {
                 content: true,
-              }
+              },
             },
-            Habits: true,
-          }
+            habits: true,
+          },
         },
       },
     });
@@ -39,16 +42,14 @@ async function auth (request: FastifyRequest) {
     if (!user) {
       throw new NotFoundError("User not found.");
     }
-
     user.profiles.forEach((profile) => {
-      profile.Documents = buildDocumentHierarchy(
-        profile.Documents.map((doc) => ({
+      profile.documents = buildDocumentHierarchy(
+        profile.documents.map((doc) => ({
           ...doc,
           content: [],
         }))
       );
     });
-    
 
     request.user = user;
   } catch (error) {
