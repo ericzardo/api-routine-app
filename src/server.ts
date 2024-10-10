@@ -5,10 +5,12 @@ import {
 } from "fastify-type-provider-zod";
 import env from "@lib/env"
 import cookie from "@fastify/cookie"
+import cors from "@fastify/cors"
 import multipart from '@fastify/multipart'
 
 import login from "./routes/auth/login";
 import logout from "./routes/auth/logout";
+import authentication from "./routes/auth/authentication";
 import createUser from "./routes/users/create-user";
 import getUsers from "./routes/users/get-users";
 import createProfile from "./routes/profiles/create-profile";
@@ -37,6 +39,10 @@ app.register(cookie, {
     sameSite: "strict",
   }
 })
+app.register(cors, {
+  origin: true,
+  credentials: true,
+})
 app.register(multipart);
 
 app.register(createUser);
@@ -47,6 +53,7 @@ app.register(getProfiles);
 
 app.register(login);
 app.register(logout);
+app.register(authentication);
 
 app.register(createAlarm);
 app.register(getAlarms);
